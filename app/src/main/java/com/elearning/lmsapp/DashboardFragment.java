@@ -1,12 +1,23 @@
 package com.elearning.lmsapp;
 
+import android.content.SharedPreferences;
 import android.os.Bundle;
-
-import androidx.fragment.app.Fragment;
-
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.GridView;
+import android.widget.TextView;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.fragment.app.Fragment;
+
+import com.elearning.model.CourseModel;
+
+import java.util.ArrayList;
+
+import static android.os.ParcelFileDescriptor.MODE_APPEND;
+
 
 /**
  * A simple {@link Fragment} subclass.
@@ -59,6 +70,31 @@ public class DashboardFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_dashboard, container, false);
+        return inflater.inflate(R.layout.activity_course, container, false);
+    }
+
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        GridView coursesGV = view.findViewById(R.id.idGVcourses);
+        TextView userName = view.findViewById(R.id.username_val);
+        userName.setText(mParam1);
+
+        ArrayList<CourseModel> courseModelArrayList = new ArrayList<CourseModel>();
+        courseModelArrayList.add(new CourseModel("DSA", R.drawable.ic_gfglogo));
+        courseModelArrayList.add(new CourseModel("JAVA", R.drawable.ic_gfglogo));
+        courseModelArrayList.add(new CourseModel("C++", R.drawable.ic_gfglogo));
+        courseModelArrayList.add(new CourseModel("Python", R.drawable.ic_gfglogo));
+        courseModelArrayList.add(new CourseModel("Javascript", R.drawable.ic_gfglogo));
+        courseModelArrayList.add(new CourseModel("DSA", R.drawable.ic_gfglogo));
+
+        CourseGVAdapter adapter = new CourseGVAdapter(getContext(), courseModelArrayList);
+        coursesGV.setAdapter(adapter);
+    }
+
+    @Override
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+
     }
 }

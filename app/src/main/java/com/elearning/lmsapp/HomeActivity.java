@@ -2,26 +2,30 @@ package com.elearning.lmsapp;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
+import android.content.SharedPreferences;
 import android.os.Bundle;
-
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.google.android.material.snackbar.Snackbar;
-
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
-import androidx.fragment.app.FragmentTransaction;
-
+import android.text.TextUtils;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.FragmentTransaction;
+
+import com.elearning.util.ValidationUtil;
+
+import static com.elearning.util.ValidationUtil.isValidPassword;
+import static android.os.ParcelFileDescriptor.MODE_APPEND;
 
 public class HomeActivity extends AppCompatActivity implements OnClickListener {
 
     private TextView heading;
     private Button btDashboard, btCourse, btAboutus;
     private View mView;
+    private String userName, password;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,7 +42,9 @@ public class HomeActivity extends AppCompatActivity implements OnClickListener {
         btAboutus.setOnClickListener(this);
         btDashboard.setOnClickListener(this);
         btCourse.setOnClickListener(this);
-        //exit();
+        getuserDetails();
+        onDashboard();
+
 
     }
 
@@ -69,7 +75,6 @@ public class HomeActivity extends AppCompatActivity implements OnClickListener {
             public void onClick(DialogInterface arg0, int arg1) {
 
                 finish();
-                //onHomeScreen();
             }
         });
 
@@ -96,7 +101,7 @@ public class HomeActivity extends AppCompatActivity implements OnClickListener {
         int id = v.getId();
         switch (id) {
             case R.id.bt_dashboard:
-                exit();
+                onDashboard();
                 break;
             case R.id.bt_Course:
                 onCourse();
@@ -109,11 +114,32 @@ public class HomeActivity extends AppCompatActivity implements OnClickListener {
         }
     }
 
+    private boolean isValidateLoginInfoFields() {
+        boolean isValidData = true;
+        EditText etEmail = findViewById(R.id.username);
+        EditText etpassword = findViewById(R.id.password);
+        TextView tvErrormessage = findViewById(R.id.tv_errormessage);
+
+        if (!ValidationUtil.isValidEmail(etEmail.getText().toString())) {
+            isValidData = false;
+            etEmail.setActivated(true);
+        }
+        if (!isValidPassword(etpassword.getText().toString())) {
+            isValidData = false;
+            etpassword.setActivated(true);
+        }
+        tvErrormessage.setText("Please correct the invalid fields");
+        return isValidData;
+
+    }
+
+
     private void onDashboard() {
         heading.setText("Dashboard");
         FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
         // Replace the contents of the container with the new fragment
-        ft.replace(R.id.body_content, new DashboardFragment());
+        //DashboardFragment  = new DashboardFragment();
+        ft.replace(R.id.body_content, DashboardFragment.newInstance(userName,password));
         // or ft.add(R.id.your_placeholder, new FooFragment());
         // Complete the changes added above
         ft.commit();
@@ -136,5 +162,15 @@ public class HomeActivity extends AppCompatActivity implements OnClickListener {
         // or ft.add(R.id.your_placeholder, new FooFragment());
         // Complete the changes added above
         ft.commit();
+    }
+
+    private void getuserDetails() {
+        SharedPreferences sh = getSharedPreferences("LMSPref", MODE_PRIVATE);
+
+        // The value will be default as empty string because for
+        // the very first time when the app is opened, there is nothing to show
+        userName = sh.getString("username", "");
+        password = sh.getString("password", "");
+
     }
 }

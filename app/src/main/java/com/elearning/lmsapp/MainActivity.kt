@@ -1,30 +1,50 @@
 package com.elearning.lmsapp
 
+import android.R.attr.name
 import android.app.AlertDialog
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
+import android.view.View
 import android.widget.Button
-import android.widget.Toast
+import android.widget.EditText
+import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
+import com.elearning.util.ValidationUtil
+
 
 class MainActivity : AppCompatActivity() {
+    val TAG: String = "MainActivity"
+    lateinit var etEmail: EditText
+    lateinit var etpassword: EditText
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         setSupportActionBar(findViewById(R.id.toolbar))
 
+        etEmail = findViewById(R.id.username)
+        etpassword = findViewById(R.id.password)
+        val tvErrormessage = findViewById<TextView>(R.id.tv_errormessage)
         val btRegister = findViewById<Button>(R.id.bt_register);
         val btLogin = findViewById<Button>(R.id.bt_login);
         btRegister.setOnClickListener {
             val registration = Intent(this, Registration::class.java)
-            startActivity(registration);
+            startActivity(registration)
         }
 
         btLogin.setOnClickListener {
-            exit();
+            if (isValidateLoginInfoFields())
+                exit()
+            else {
+                tvErrormessage.text = "Please correct the invalid fields"
+                tvErrormessage.visibility = View.VISIBLE
+
+            }
+
+
         }
 
     }
@@ -45,15 +65,32 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    fun exit() {
+    private fun isValidateLoginInfoFields(): Boolean {
+        var isValidData = true
+
+        if (!ValidationUtil.isValidEmail(etEmail.text.toString())) {
+            isValidData = false
+            etEmail.isActivated = true
+        }
+        if (!ValidationUtil.isValidPassword(etpassword.text.toString())) {
+            Log.d(TAG, "password is not valid::::" + etpassword.text.toString())
+            isValidData = false
+            etpassword.isActivated = true
+        }
+        return isValidData
+    }
+
+    private fun exit() {
         val alertDialogBuilder = AlertDialog.Builder(this)
         // Setting Alert Dialog Title
         alertDialogBuilder.setTitle("Successfully login..!!!")
         // Icon Of Alert Dialog
         //alertDialogBuilder.setIcon(R.drawable.question);
         // Setting Alert Dialog Message
-        alertDialogBuilder.setCancelable(false)
+        //alertDialogBuilder.setCancelable(false)
         alertDialogBuilder.setPositiveButton("Ok") { arg0, arg1 ->
+            Log.d(TAG, "Login Buttin Pressed")
+            storeData()
             onHomeScreen()
             finish()
         }
@@ -61,9 +98,19 @@ class MainActivity : AppCompatActivity() {
         alertDialog.show()
     }
 
+    private fun storeData() {
+        val sharedPreferences = getSharedPreferences("LMSPref", MODE_PRIVATE)
+        val myEdit = sharedPreferences.edit()
+        myEdit.putString("username", etEmail.getText().toString())
+        myEdit.putString("password", etpassword.getText().toString())
+        myEdit.commit()
+    }
 
-    fun onHomeScreen() {
+
+    private fun onHomeScreen() {
         val homeScreen = Intent(this, HomeActivity::class.java)
         startActivity(homeScreen)
     }
+
+
 }
