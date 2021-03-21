@@ -96,7 +96,7 @@ public class HomeActivity extends AppCompatActivity implements OnClickListener {
         int id = v.getId();
         switch (id) {
             case R.id.bt_dashboard:
-                exit();
+                onDashboard();
                 break;
             case R.id.bt_Course:
                 onCourse();

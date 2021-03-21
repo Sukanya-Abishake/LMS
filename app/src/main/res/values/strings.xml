@@ -12,6 +12,7 @@
 
     <string name="title_activity_registration">Registration</string>
     <string name="title_activity_home">HomeActivity</string>
+    <string name="pick_date">sdata</string>
     <string name="large_text">
         "Material is the metaphor.\n\n"
 

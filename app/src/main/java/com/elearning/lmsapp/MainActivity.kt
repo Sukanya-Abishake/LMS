@@ -6,10 +6,9 @@ import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
 import android.widget.Button
-import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 
-class MainActivity : AppCompatActivity() {
+class MainActivity : AppCompatActivity(), ProfileCommunicator{
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -66,4 +65,20 @@ class MainActivity : AppCompatActivity() {
         val homeScreen = Intent(this, HomeActivity::class.java)
         startActivity(homeScreen)
     }
+
+    override fun sendProfileData(name: String, email: String, phone: String) {
+            val bundle=Bundle()
+        bundle.putString("name", name)
+        bundle.putString("email", email)
+        bundle.putString("phone", phone) ;
+        val transaction=this.supportFragmentManager.beginTransaction();
+        val dashboard=DashboardFragment.newInstance(name, email, phone)
+        dashboard.arguments=bundle
+        // Replace the contents of the container with the new fragment
+        transaction.replace(R.id.body_content, dashboard).commit()
+
+
+    }
+
+
 }
