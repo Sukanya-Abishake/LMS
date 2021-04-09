@@ -13,7 +13,7 @@ public class ValidationUtil {
                     ".{4,}" +                // at least 4 characters
                     "$");
 
-    private static  final Pattern PHONENUMBER_PATTERN = Pattern.compile("^\\+[0-9]{1,10}$");
+    private static  final Pattern PHONENUMBER_PATTERN = Pattern.compile("^[0-9]{1,10}$");
 
 
     public static final String EMAIL_REGEX_PATTERN = "^[_A-Za-z0-9-\\+]+(\\.[_A-Za-z0-9-]+)*@[A-Za-z0-9-]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$";

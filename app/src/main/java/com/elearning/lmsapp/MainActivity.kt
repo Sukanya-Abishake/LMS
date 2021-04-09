@@ -1,6 +1,5 @@
 package com.elearning.lmsapp
 
-import android.R.attr.name
 import android.app.AlertDialog
 import android.content.Intent
 import android.os.Bundle
@@ -8,11 +7,15 @@ import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
-import android.widget.Button
-import android.widget.EditText
-import android.widget.TextView
+import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
+import com.elearning.model.User
+import com.elearning.restcall.Api
+import com.elearning.restcall.RetrofitClient
 import com.elearning.util.ValidationUtil
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
 
 
 class MainActivity : AppCompatActivity() {
@@ -37,7 +40,7 @@ class MainActivity : AppCompatActivity() {
 
         btLogin.setOnClickListener {
             if (isValidateLoginInfoFields())
-                exit()
+                loginUser()
             else {
                 tvErrormessage.text = "Please correct the invalid fields"
                 tvErrormessage.visibility = View.VISIBLE
@@ -112,5 +115,38 @@ class MainActivity : AppCompatActivity() {
         startActivity(homeScreen)
     }
 
+    fun loginUser() {
+        val myApi: Api = RetrofitClient.getInstance().getMyApi()
+        val user = User("suki@gmail.com", "abcd@1234", "student")
 
+        val userCall: Call<List<User>> = myApi.getUserDetail(user)
+        userCall.enqueue(object : Callback<List<User>> {
+            override fun onResponse(call: Call<List<User>>, response: Response<List<User>>) {
+                val userList = response.body()!!
+                var userDetail = userList[0]
+                Log.i("suki", "onResponse::post " + userDetail.toString())
+                exit()
+
+            }
+
+            override fun onFailure(call: Call<List<User>>, t: Throwable) {
+                Toast.makeText(applicationContext, t.message, Toast.LENGTH_SHORT).show()
+            }
+        })
+        /*userCall.enqueue(new Callback<List<User>>() {
+            override fun onResponse(call: Call<List<User>>, response: Response<List<User>>) {
+                Log.i("suki", "post " + response.body().toString())
+                if (response.isSuccessful()) {
+                    //showResponse(response.body().toString());
+                    Log.i("suki", "post submitted to API." + response.body().toString())
+                    // onHomeScreen()
+                    exit()
+                }
+            }
+
+            override fun onFailure(call: Call<User>, t: Throwable) {
+                Log.e("suki", "Unable to submit post to API.$t")
+            }
+        })*/
+    }
 }
