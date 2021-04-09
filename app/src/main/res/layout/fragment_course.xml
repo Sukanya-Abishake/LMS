@@ -3,6 +3,28 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
+    <EditText
+        android:id="@+id/coursename"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        android:hint="course name"/>
+    <EditText
+        android:id="@+id/startdate"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@id/coursename"
+        app:layout_constraintStart_toStartOf="parent"
+        android:hint="Start Date"/>
+    <Button
+        android:id="@+id/bt_Search"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@id/startdate"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:text="Search"/>
 
 
     <GridView
@@ -12,7 +34,7 @@
         android:horizontalSpacing="6dp"
         android:numColumns="2"
         android:verticalSpacing="6dp"
-        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/bt_Search"
         app:layout_constraintStart_toStartOf="parent"
         android:layout_marginTop="10dp"/>
 </androidx.constraintlayout.widget.ConstraintLayout>

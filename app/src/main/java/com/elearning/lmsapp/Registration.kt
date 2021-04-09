@@ -1,13 +1,11 @@
 package com.elearning.lmsapp
 
 import android.content.Intent
+import android.graphics.Color
 import android.os.Bundle
 import android.util.Log
 import android.view.View
-import android.widget.Button
-import android.widget.EditText
-import android.widget.RadioButton
-import android.widget.RadioGroup
+import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
 import com.elearning.model.User
 import com.elearning.restcall.Api
@@ -54,6 +52,7 @@ class Registration : AppCompatActivity() {
         etCity = findViewById(R.id.et_city)
         etAddress = findViewById(R.id.et_address)
         radioRoleGroup = findViewById(R.id.rg_usertype)
+        val tvErrormessage = findViewById<TextView>(R.id.tv_errormessage)
 
         btSubmit.setOnClickListener {
             name = etName.text.toString()
@@ -72,6 +71,11 @@ class Registration : AppCompatActivity() {
             Log.i(TAG, "role::" + role + "***")
             if (isValidateRegistrationFields()) {
                 saveUser()
+            } else {
+                tvErrormessage.text = "Please correct the invalid fields"
+                tvErrormessage.setTextColor(Color.RED)
+                tvErrormessage.visibility = View.VISIBLE
+
             }
         }
     }
@@ -113,7 +117,7 @@ class Registration : AppCompatActivity() {
 
 
     fun saveUser() {
-        val myApi: Api = RetrofitClient.getInstance().getMyApi()
+        val myApi: Api = RetrofitClient.getInstance().myApi
         val user = User(name, phoneNumber, email, address, pincode, password, city, "student")
 
         val userCall: Call<User> = myApi.saveData(user)
@@ -121,7 +125,6 @@ class Registration : AppCompatActivity() {
             override fun onResponse(call: Call<User>, response: Response<User>) {
                 Log.i(TAG, "post " + response.body().toString())
                 if (response.isSuccessful()) {
-                    //showResponse(response.body().toString());
                     storeData()
                     onHome()
                 }

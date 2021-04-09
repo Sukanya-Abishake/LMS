@@ -103,5 +103,20 @@
     </string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="aboutus_text">We power better training experiences \n \n
+From Fortune 100 companies to rising SMBs, our user-focused LMS and industry-leading expertise enables businesses to deliver impactful training that fuels employee, partner, and customer success.
+    \n\n
+    Our story\n \n
+At LearnUpon, we’re on a mission to revolutionize corporate learning. Since day one, our founders have focused on building something bigger and better.
+
+Now, almost a decade later, with a powerful platform and passionate people, LearnUpon is helping businesses around the world unlock learning as their number one competitive advantage.
+    \n\n
+    Our customers are doing
+inspirational things  \n \n
+TeamViewer now have the ability to train, support, and develop every one of its audiences
+– employees, resellers, and customers – and help them on the journey to success.
+    The Forerunner of Digital Learning \n\n
+By combining our comprehensive expertise and the customers vision with our learning technology, we develop outstanding solutions that endure. People, our employees and our customers, are central to our operations. Our work is led by our four core values: responsibility, sense of community, development, and customer focus.</string>
+
 
 </resources>

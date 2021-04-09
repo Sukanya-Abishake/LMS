@@ -5,10 +5,15 @@
     android:layout_height="match_parent"
     tools:context=".AboutUsFragment">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
+
+
+    <EditText
+        android:id="@+id/editTextTextMultiLine"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="Aboutus Fragment" />
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:text="@string/aboutus_text"
+        android:gravity="start|top"
+        android:inputType="textMultiLine" />
 
 </FrameLayout>

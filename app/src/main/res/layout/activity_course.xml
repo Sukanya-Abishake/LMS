@@ -9,6 +9,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="UserName:"
+        android:textSize="20sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -17,6 +18,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="UserName Value"
+        android:textSize="20sp"
         app:layout_constraintLeft_toRightOf="@id/username"
         app:layout_constraintTop_toTopOf="parent" />
 

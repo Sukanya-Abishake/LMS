@@ -2,6 +2,7 @@ package com.elearning.lmsapp
 
 import android.app.AlertDialog
 import android.content.Intent
+import android.graphics.Color
 import android.os.Bundle
 import android.util.Log
 import android.view.Menu
@@ -31,11 +32,12 @@ class MainActivity : AppCompatActivity() {
         etEmail = findViewById(R.id.username)
         etpassword = findViewById(R.id.password)
         val tvErrormessage = findViewById<TextView>(R.id.tv_errormessage)
-        val btRegister = findViewById<Button>(R.id.bt_register);
-        val btLogin = findViewById<Button>(R.id.bt_login);
+        val btRegister = findViewById<Button>(R.id.bt_register)
+        val btLogin = findViewById<Button>(R.id.bt_login)
         btRegister.setOnClickListener {
             val registration = Intent(this, Registration::class.java)
             startActivity(registration)
+            finish()
         }
 
         btLogin.setOnClickListener {
@@ -43,6 +45,7 @@ class MainActivity : AppCompatActivity() {
                 loginUser()
             else {
                 tvErrormessage.text = "Please correct the invalid fields"
+                tvErrormessage.setTextColor(Color.RED)
                 tvErrormessage.visibility = View.VISIBLE
 
             }
